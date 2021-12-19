@@ -1,0 +1,16 @@
+variables:
+  APP_TOKEN: $app_token
+
+stages:
+  - deploy
+
+deploy-job:
+  stage: deploy
+  only:
+    - /^main/i
+  script:
+    - echo $env:APP_TOKEN
+    - echo "Deploying application..."
+    - echo "GET APP_TOKEN FROM ENV:"
+    - export | grep APP_TOKEN
+    - echo "Application successfully deployed."
