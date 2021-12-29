@@ -1,0 +1,17 @@
+- hosts: all
+  become: true
+  roles:
+    - geerlingguy.redis
+    - app.golang
+
+  pre_tasks:
+    - name: Wait for cloud-init to complete
+      command: /usr/bin/cloud-init status --wait
+
+  tasks:
+    - name: Install package
+      package:
+        name: neovim
+        state: present
+    # - name: Restart server
+    #   reboot:

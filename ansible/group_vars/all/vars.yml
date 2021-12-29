@@ -1,0 +1,11 @@
+---
+go_app_binary_url: http://gl-cloud.mylabs.space/public-group/go/uploads/d86f2cc6d7c6c575bdb32795951882c6/go_build_for_linux_linux
+go_app_binary_dest: /usr/local/bin/go-app
+go_app_binary_mode: 0755
+go_app_service_path: /etc/systemd/system/go-app.service
+go_app_service_mode: 0640
+go_app_environment:
+  BIND_ADDR: :8000
+  JWT_KEY: asjkjdsl
+  RATE_PERIOD: 10
+  RATE: 5

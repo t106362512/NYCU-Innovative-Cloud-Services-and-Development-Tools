@@ -1,0 +1,14 @@
+[Unit]
+Description=Golang app server
+After=network.target
+
+[Service]
+# User=nobody
+{% for env_key, env_value in go_app_environment.items() %}
+Environment="{{ env_key }}={{ env_value }}"
+{% endfor %}
+# Execute `systemctl daemon-reload` after ExecStart= is changed.
+ExecStart={{ go_app_binary_dest }}
+
+[Install]
+WantedBy=multi-user.target

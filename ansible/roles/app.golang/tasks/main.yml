@@ -1,0 +1,20 @@
+---
+- name: Download golang app binary
+  get_url:
+    url: "{{ go_app_binary_url }}"
+    dest: "{{ go_app_binary_dest }}"
+    mode: "{{ go_app_binary_mode }}"
+    force: true
+
+- name: Ensure go-app service unit is configured.
+  template:
+    src: go-app.service.j2
+    dest: "{{ go_app_service_path }}"
+    mode: "{{ go_app_service_mode }}"
+  notify: restart go-app
+
+- name: Make sure a go-app service unit is running
+  systemd:
+    name: go-app
+    state: started
+    enabled: true
