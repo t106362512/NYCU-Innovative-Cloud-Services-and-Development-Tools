@@ -1,11 +1,49 @@
+image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
 variables:
   APP_TOKEN: $app_token
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/terraform-tfstate
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - terraform/.terraform
+
+before_script:
+  - cd ${TF_ROOT}
 
 stages:
+  - prepare
+  - validate
+  - build
   - deploy
+
+init:
+  stage: prepare
+  script:
+    - gitlab-terraform init
+    - apk add ansible=2.10.7-r0
+    - ansible-playbook --version
+validate:
+  stage: validate
+  script:
+    - gitlab-terraform validate
+plan:
+  stage: build
+  script:
+    - gitlab-terraform plan
+    - gitlab-terraform plan-json
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
 
 deploy-job:
   stage: deploy
+  dependencies:
+    - plan
   only:
     - /^main/i
   script:
@@ -14,3 +52,5 @@ deploy-job:
     - echo "GET APP_TOKEN FROM ENV:"
     - export | grep APP_TOKEN
     - echo "Application successfully deployed."
+    - cp $INSTANCE_PRIVATE_KEY $(pwd)/keys/ansible-key
+    # - gitlab-terraform apply
