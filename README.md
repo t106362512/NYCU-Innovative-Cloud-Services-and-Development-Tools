@@ -1,6 +1,12 @@
-# t10-deploy-testing
+# NYCU-Innovative-Cloud-Services-and-Development-Tools
 
 ## 簡述
+
+
+新創雲服務與開發工具-第十組期末專案之自動化建立服務
+
+- 簡報請參考[此 GoogleSlides 連結](https://docs.google.com/presentation/d/1uyFppBl51ihw4Xpfx-AOXCwkBkKtBAEVIi7Vdd6mkHU)
+- DEMO 影片請參考[此 YouTube 連結](https://youtu.be/wf3kXx77SOI)
 
 這是我大 Terrible(Terraform + Ansible) 部署方式，預期部署時僅需打 gitlab-ci api 就能全自動部署 VM 與應用程式
 
